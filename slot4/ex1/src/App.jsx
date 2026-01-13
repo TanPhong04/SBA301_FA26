@@ -12,24 +12,29 @@ import TestCount from "./components/TestCount";
 function App() {
   return (
     <Router>
-      <Header />
-      <br />
-      <main style={{ minHeight: "70vh" }}>
-        <Routes>
-          <Route path="/" element={<Orchid orchidList={OrchidsData} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <br />
-        <TestCount />
-        <br />
+      <div className="d-flex flex-column min-vh-100">
+        <Header />
+
+        <main className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Orchid orchidList={OrchidsData} />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+
+          <div className="text-center my-3">
+            <TestCount />
+          </div>
+        </main>
+
         <Footer
           avatar="https://cdn2.fptshop.com.vn/unsafe/800x0/meme_cho_1_e568e5b1a5.jpg"
           name="phongtt"
           email="sw.phongtt@gmail.com"
         />
-      </main>
+      </div>
     </Router>
   );
 }
+
 export default App;
