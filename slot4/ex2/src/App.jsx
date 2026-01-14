@@ -10,34 +10,38 @@ import Contact from "./components/Contact";
 import OrchidDetail from "./components/OrchidDetail"; // <--- Import file mới
 import { OrchidsData } from "./data/ListOfOrchidss";
 import TestCount from "./components/TestCount";
-
+import Login from "./components/Login";
+import { AuthProvider } from "./contexts/AuthContext";
 function App() {
   return (
-    <Router>
-      <div className="d-flex flex-column min-vh-100">
-        <Header />
+    <AuthProvider>
+      <Router>
+        <div className="d-flex flex-column min-vh-100 app-container">
+          <Header />
 
-        <main className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Orchid orchidList={OrchidsData} />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* Thêm Route chi tiết */}
-            <Route path="/detail/:id" element={<OrchidDetail />} />
-          </Routes>
+          <main className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<Orchid orchidList={OrchidsData} />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              {/* Thêm Route chi tiết */}
+              <Route path="/detail/:id" element={<OrchidDetail />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
 
-          <div className="text-center my-3">
-            <TestCount />
-          </div>
-        </main>
+            <div className="text-center my-3">
+              <TestCount />
+            </div>
+          </main>
 
-        <Footer
-          avatar="https://cdn2.fptshop.com.vn/unsafe/800x0/meme_cho_1_e568e5b1a5.jpg"
-          name="phongtt"
-          email="sw.phongtt@gmail.com"
-        />
-      </div>
-    </Router>
+          <Footer
+            avatar="https://cdn2.fptshop.com.vn/unsafe/800x0/meme_cho_1_e568e5b1a5.jpg"
+            name="phongtt"
+            email="sw.phongtt@gmail.com"
+          />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

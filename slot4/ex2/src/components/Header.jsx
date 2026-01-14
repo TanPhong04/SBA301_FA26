@@ -1,9 +1,13 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useAuth } from "../contexts/AuthContext";
+
 function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { isLoggedIn, username, avatar, logout } = useAuth();
+
   const handleSearch = (term) => {
     if (window.location.pathname !== "/") {
       navigate(`/?q=${term}`);
@@ -15,6 +19,12 @@ function Header() {
       }
     }
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg">
       <Container>
@@ -33,16 +43,40 @@ function Header() {
             <Nav.Link as={Link} to="/contact">
               Contact
             </Nav.Link>
+            {!isLoggedIn && (
+              <Link to="/login" className="nav-link">
+                Login
+              </Link>
+            )}
           </Nav>
 
-          <SearchBar
-            searchText={searchParams.get("q") || ""}
-            handleSearch={handleSearch}
-            className="d-flex ms-auto"
-          />
+          {isLoggedIn && (
+            <Nav className="ms-auto d-flex align-items-center">
+              <img
+                src={avatar}
+                alt="Avatar"
+                className="rounded-circle me-2"
+                style={{ width: "40px", height: "40px" }}
+              />
+              <NavDropdown title={username} id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          )}
+
+          {!isLoggedIn && (
+            <SearchBar
+              searchText={searchParams.get("q") || ""}
+              handleSearch={handleSearch}
+              className="d-flex ms-auto"
+            />
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
+
 export default Header;
