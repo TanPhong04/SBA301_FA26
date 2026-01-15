@@ -52,15 +52,28 @@ function Header() {
               <Nav.Link as={Link} to="/contact">
                 Contact
               </Nav.Link>
-              {!isLoggedIn && (
-                <Link to="/login" className="nav-link">
+            </Nav>
+
+            {!isLoggedIn && (
+              <Nav className="ms-auto">
+                <SearchBar
+                  searchText={searchParams.get("q") || ""}
+                  handleSearch={handleSearch}
+                  className="d-flex"
+                />
+                <Link to="/login" className="nav-link ms-3">
                   Login
                 </Link>
-              )}
-            </Nav>
+              </Nav>
+            )}
 
             {isLoggedIn && (
               <Nav className="ms-auto d-flex align-items-center">
+                <SearchBar
+                  searchText={searchParams.get("q") || ""}
+                  handleSearch={handleSearch}
+                  className="d-flex me-3"
+                />
                 <img
                   src={avatar}
                   alt="Avatar"
@@ -73,14 +86,6 @@ function Header() {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-            )}
-
-            {!isLoggedIn && (
-              <SearchBar
-                searchText={searchParams.get("q") || ""}
-                handleSearch={handleSearch}
-                className="d-flex ms-auto"
-              />
             )}
           </Navbar.Collapse>
         </Container>
