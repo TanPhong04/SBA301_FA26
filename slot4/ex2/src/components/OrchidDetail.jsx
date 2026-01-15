@@ -33,31 +33,50 @@ const OrchidDetail = () => {
           </div>
 
           <Card className="shadow">
-            <Card.Img
-              variant="top"
-              src={orchid.image}
-              alt={orchid.orchidName}
-              style={{ maxHeight: "500px", objectFit: "cover" }}
-            />
             <Card.Body>
-              <Card.Title className="display-5 text-primary">
-                {orchid.orchidName}
-              </Card.Title>
+              <Row>
+                <Col md={6}>
+                  <Card.Img
+                    src={orchid.image}
+                    alt={orchid.orchidName}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      maxHeight: "400px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Col>
+                <Col md={6}>
+                  <Card.Title className="display-5 text-primary">
+                    {orchid.orchidName}
+                  </Card.Title>
 
-              <Card.Text as="div">
-                <p>
-                  <strong>Category:</strong> {orchid.category}
-                </p>
-                <p className="fs-4 text-danger fw-bold">
-                  Price: ${orchid.price}
-                </p>
-                {orchid.isSpecial && (
-                  <p className="badge bg-warning text-dark">★ Special Item</p>
-                )}
-                <hr />
-                <h5>Description</h5>
-                <p>{orchid.description}</p>
-              </Card.Text>
+                  <Card.Text as="div">
+                    <p>
+                      <strong>Category:</strong> {orchid.category}
+                    </p>
+                    <p className="fs-4 text-danger fw-bold">
+                      Price: ${orchid.price}
+                    </p>
+                    {orchid.isSpecial && (
+                      <p className="badge bg-warning text-dark">
+                        ★ Special Item
+                      </p>
+                    )}
+                    <hr />
+                    <h5>Description</h5>
+                    <p>{orchid.description}</p>
+                  </Card.Text>
+                  <Button
+                    variant="success"
+                    size="lg"
+                    onClick={() => alert("Đã thêm vào giỏ hàng!")}
+                  >
+                    Add To Cart
+                  </Button>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Col>
