@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState(
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ036Y7KTmVDrR5rNJMbGIYjqx_LGVbO511ldBQMN8dqA&s://via.placeholder.com/40"
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ036Y7KTmVDrR5rNJMbGIYjqx_LGVbO511ldBQMN8dqA&s://via.placeholder.com/40",
   );
 
   useEffect(() => {

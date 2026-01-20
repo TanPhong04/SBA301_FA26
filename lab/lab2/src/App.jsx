@@ -9,7 +9,7 @@ import Contact from "./components/Contact";
 import OrchidDetail from "./components/OrchidDetail"; // <--- Import file mới
 import { OrchidsData } from "./data/ListOfOrchidss";
 import TestCount from "./components/TestCount";
-import Login from "./components/Login";
+import Login from "./page/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
@@ -17,12 +17,12 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Orchid orchidList={OrchidsData} />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="detail/:id" element={<OrchidDetail />} />
-            <Route path="login" element={<Login />} />
           </Route>
         </Routes>
       </Router>
