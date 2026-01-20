@@ -1,50 +1,41 @@
-// src/components/Login.jsx
-// login page using userName and password to login and redirect to Orchid page
-import React, { useReducer, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// src/page/Login.jsx
+import React from "react";
 import {
+  Form,
+  Button,
+  Card,
   Container,
   Row,
   Col,
-  Card,
-  Form,
-  Button,
   Alert,
+  Spinner,
 } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
-import loginReducer, { initialState } from "../stores/login/loginReducer";
+import { useLogin } from "../hooks/useLogin";
+import ConfirmModal from "../components/ConfirmModal"; // Import đúng đường dẫn component
 
 const Login = () => {
-  const [state, dispatch] = useReducer(loginReducer, initialState);
-  const [validated, setValidated] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  // Đổi tên thành Login để khớp với router
+  const {
+    formState,
+    loading,
+    error,
+    user,
+    handleChange,
+    handleSubmit,
+    handleCancel,
+    handleCloseSuccessModal,
+    clearError,
+  } = useLogin();
 
-  const handleLogin = (e) => {
-    const form = e.currentTarget;
-    e.preventDefault();
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
-      return;
-    }
-    dispatch({ type: "LOGIN_REQUEST" });
-    if (state.username === "admin" && state.password === "123456") {
-      login(state.username);
-      dispatch({ type: "LOGIN_SUCCESS", payload: state.username });
-      navigate("/");
-    } else {
-      dispatch({
-        type: "LOGIN_FAILURE",
-        payload: "Invalid username or password",
-      });
-    }
-  };
+  const modalBody = (
+    <div>
+      <p>
+        Welcome, <strong>{user?.username}</strong>!
+      </p>
+      <p>You have successfully logged in as {user?.role}.</p>
+    </div>
+  );
 
-  const handleCancel = () => {
-    dispatch({ type: "RESET" });
-    navigate("/");
-  };
   return (
     <div
       className="d-flex justify-content-center align-items-center min-vh-100"
@@ -55,7 +46,7 @@ const Login = () => {
       <Container>
         <Row className="justify-content-center">
           <Col md={6} lg={5}>
-            <Card className="shadow-lg border-0 rounded-4 overflow-hidden">
+            <Card className="shadow-lg border-0 rounded-4">
               <Card.Header
                 className="bg-primary text-white text-center py-4"
                 style={{
@@ -63,103 +54,99 @@ const Login = () => {
                     "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
                 }}
               >
-                <h3 className="mb-0 fw-bold">Welcome Back</h3>
-                <p className="mb-0 small">Please sign in to your account</p>
+                <h3 className="mb-0 fw-bold">Login with AuthContext</h3>
               </Card.Header>
               <Card.Body className="p-4">
-                <Form noValidate validated={validated} onSubmit={handleLogin}>
-                  <Form.Group className="mb-4" controlId="formBasicUsername">
-                    <Form.Label className="fw-semibold">Username</Form.Label>
+                {error && (
+                  <Alert variant="danger" onClose={clearError} dismissible>
+                    {error}
+                  </Alert>
+                )}
+                <Form onSubmit={handleSubmit} noValidate>
+                  <Form.Group className="mb-3" controlId="identifier">
+                    <Form.Label>Username or Email</Form.Label>
                     <Form.Control
-                      required
                       type="text"
-                      placeholder="Enter username"
-                      value={state.username}
-                      onChange={(e) =>
-                        dispatch({
-                          type: "SET_USERNAME",
-                          payload: e.target.value,
-                        })
-                      }
-                      className="form-control-lg rounded-pill"
-                      style={{ paddingLeft: "1rem" }}
+                      name="identifier"
+                      value={formState.identifier}
+                      onChange={handleChange}
+                      isInvalid={!!formState.errors.identifier}
+                      placeholder="Enter username or email"
+                      disabled={loading}
                     />
                     <Form.Control.Feedback type="invalid">
-                      Please provide a username.
+                      {formState.errors.identifier}
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mb-4" controlId="formBasicPassword">
-                    <Form.Label className="fw-semibold">Password</Form.Label>
+                  <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Password</Form.Label>
                     <Form.Control
-                      required
                       type="password"
-                      placeholder="Password"
-                      value={state.password}
-                      onChange={(e) =>
-                        dispatch({
-                          type: "SET_PASSWORD",
-                          payload: e.target.value,
-                        })
-                      }
-                      className="form-control-lg rounded-pill"
-                      style={{ paddingLeft: "1rem" }}
+                      name="password"
+                      value={formState.password}
+                      onChange={handleChange}
+                      isInvalid={!!formState.errors.password}
+                      placeholder="Enter password"
+                      disabled={loading}
                     />
                     <Form.Control.Feedback type="invalid">
-                      Please provide a password.
+                      {formState.errors.password}
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <div className="d-flex justify-content-center gap-3 mt-4">
+                  <div className="d-flex gap-2">
                     <Button
                       variant="primary"
                       type="submit"
-                      disabled={state.isLoading}
-                      className="px-4 py-2 rounded-pill fw-semibold"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-                        border: "none",
-                        transition: "transform 0.2s",
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.target.style.transform = "scale(1.05)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.target.style.transform = "scale(1)")
-                      }
+                      className="flex-grow-1"
+                      disabled={loading}
                     >
-                      {state.isLoading ? "Logging in..." : "Login"}
+                      {loading ? (
+                        <>
+                          <Spinner size="sm" className="me-2" />
+                          Logging in...
+                        </>
+                      ) : (
+                        "Login"
+                      )}
                     </Button>
                     <Button
-                      variant="outline-secondary"
+                      variant="secondary"
                       type="button"
+                      className="flex-grow-1"
                       onClick={handleCancel}
-                      className="px-4 py-2 rounded-pill fw-semibold"
-                      style={{ border: "2px solid", transition: "all 0.2s" }}
-                      onMouseEnter={(e) =>
-                        (e.target.style.transform = "scale(1.05)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.target.style.transform = "scale(1)")
-                      }
+                      disabled={loading}
                     >
                       Cancel
                     </Button>
                   </div>
+
+                  <div className="mt-3 text-center">
+                    <small className="text-muted">
+                      Admin: <strong>admin</strong> / <strong>123456</strong>
+                      <br />
+                      User: <strong>user1</strong> / <strong>123456</strong>{" "}
+                      (access denied)
+                      <br />
+                      Locked: <strong>user2</strong> / <strong>123456</strong>{" "}
+                      (account locked)
+                    </small>
+                  </div>
                 </Form>
-                {state.error && (
-                  <Alert
-                    variant="danger"
-                    className="mt-4 rounded-pill text-center fw-semibold"
-                  >
-                    {state.error}
-                  </Alert>
-                )}
               </Card.Body>
             </Card>
           </Col>
         </Row>
+
+        {/* Cập nhật Props để tương thích với component ConfirmModal hiện có */}
+        <ConfirmModal
+          show={formState.showSuccessModal}
+          handleClose={handleCloseSuccessModal} // Existing uses handleClose
+          title="Login Successful"
+          body={modalBody} // Existing uses body, not message
+          onConfirm={handleCloseSuccessModal}
+        />
       </Container>
     </div>
   );

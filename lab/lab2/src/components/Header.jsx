@@ -6,7 +6,17 @@ import { useAuth } from "../contexts/AuthContext";
 function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { isLoggedIn, username, avatar, logout } = useAuth();
+
+  // SỬA ĐỔI: Lấy dữ liệu từ AuthContext mới
+  const { isAuthenticated, user, logout } = useAuth();
+
+  // Mapping biến để tương thích logic hiển thị bên dưới
+  const isLoggedIn = isAuthenticated;
+  const username = user?.username;
+  // Dùng avatar từ user, nếu không có thì dùng ảnh mặc định
+  const avatar =
+    user?.avatar ||
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ036Y7KTmVDrR5rNJMbGIYjqx_LGVbO511ldBQMN8dqA&s://via.placeholder.com/40";
 
   const handleSearch = (term) => {
     if (window.location.pathname !== "/") {
