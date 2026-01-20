@@ -10,7 +10,6 @@ const initialFormState = {
   identifier: "", // Username hoặc email
   password: "", // Mật khẩu
   errors: {}, // Lỗi validation
-  showSuccessModal: false, // Hiển thị modal thành công
 };
 
 // Reducer để quản lý state của form
@@ -28,10 +27,7 @@ function formReducer(state, action) {
       return { ...state, errors: restErrors };
     case "SET_ERRORS": // Cập nhật tất cả lỗi
       return { ...state, errors: action.errors };
-    case "SHOW_SUCCESS_MODAL": // Hiển thị modal thành công
-      return { ...state, showSuccessModal: true };
-    case "HIDE_SUCCESS_MODAL": // Ẩn modal thành công
-      return { ...state, showSuccessModal: false };
+
     case "RESET_FORM": // Reset form về trạng thái ban đầu
       return initialFormState;
     default:
@@ -44,7 +40,7 @@ export function useLogin() {
   // Sử dụng reducer cho form state
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
   // Lấy các giá trị từ AuthContext
-  const { login, loading, error, clearError, user } = useAuth();
+  const { login, loading, error, clearError } = useAuth();
   // Hook điều hướng
   const navigate = useNavigate();
 
@@ -118,11 +114,7 @@ export function useLogin() {
         formState.password,
       );
       if (result.ok) {
-        if (formState.identifier.trim() === "admin") {
-          navigate("/");
-        } else {
-          dispatch({ type: "SHOW_SUCCESS_MODAL" });
-        }
+        navigate("/");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -135,21 +127,13 @@ export function useLogin() {
     navigate("/");
   };
 
-  const handleCloseSuccessModal = () => {
-    dispatch({ type: "HIDE_SUCCESS_MODAL" });
-    dispatch({ type: "RESET_FORM" });
-    navigate("/");
-  };
-
   return {
     formState,
     loading,
     error,
-    user,
     handleChange,
     handleSubmit,
     handleCancel,
-    handleCloseSuccessModal,
     clearError,
   };
 }

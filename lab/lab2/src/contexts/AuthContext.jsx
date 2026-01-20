@@ -134,8 +134,6 @@ export function AuthProvider({ children }) {
           return;
         }
 
-        // Trong bài lab cũ, chỉ admin mới vào được, ta giữ logic này hoặc cho phép user tùy ý
-        // Theo tài liệu docx[cite: 136], có đoạn check role admin.
         if (account.role !== "admin") {
           dispatch({
             type: "LOGIN_FAILURE",
@@ -152,7 +150,7 @@ export function AuthProvider({ children }) {
         dispatch({ type: "LOGIN_SUCCESS", payload: userInfo });
         localStorage.setItem("user", JSON.stringify(userInfo));
         resolve({ ok: true, account: userInfo });
-      }, 1000);
+      }, 500);
     });
   }
 
@@ -169,7 +167,7 @@ export function AuthProvider({ children }) {
     user: state.user,
     loading: state.loading,
     error: state.error,
-    isAuthenticated: state.isAuthenticated, // Lưu ý: Code cũ dùng isLoggedIn, code mới dùng isAuthenticated
+    isAuthenticated: state.isAuthenticated,
     login,
     logout,
     clearError,

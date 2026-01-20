@@ -1,5 +1,4 @@
 // src/page/Login.jsx
-import React from "react";
 import {
   Form,
   Button,
@@ -11,30 +10,17 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useLogin } from "../hooks/useLogin";
-import ConfirmModal from "../components/ConfirmModal"; // Import đúng đường dẫn component
 
 const Login = () => {
-  // Đổi tên thành Login để khớp với router
   const {
     formState,
     loading,
     error,
-    user,
     handleChange,
     handleSubmit,
     handleCancel,
-    handleCloseSuccessModal,
     clearError,
   } = useLogin();
-
-  const modalBody = (
-    <div>
-      <p>
-        Welcome, <strong>{user?.username}</strong>!
-      </p>
-      <p>You have successfully logged in as {user?.role}.</p>
-    </div>
-  );
 
   return (
     <div
@@ -138,15 +124,6 @@ const Login = () => {
             </Card>
           </Col>
         </Row>
-
-        {/* Cập nhật Props để tương thích với component ConfirmModal hiện có */}
-        <ConfirmModal
-          show={formState.showSuccessModal}
-          handleClose={handleCloseSuccessModal} // Existing uses handleClose
-          title="Login Successful"
-          body={modalBody} // Existing uses body, not message
-          onConfirm={handleCloseSuccessModal}
-        />
       </Container>
     </div>
   );

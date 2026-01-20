@@ -6,9 +6,9 @@ import MainLayout from "./components/MainLayout";
 import Orchid from "./components/Orchid";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import OrchidDetail from "./components/OrchidDetail"; // <--- Import file mới
+import OrchidDetail from "./components/OrchidDetail";
 import { OrchidsData } from "./data/ListOfOrchidss";
-import TestCount from "./components/TestCount";
+// import TestCount from "./components/TestCount"; // <--- Code thừa: Component này không được sử dụng trong App.jsx
 import Login from "./page/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 
