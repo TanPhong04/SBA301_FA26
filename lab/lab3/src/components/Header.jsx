@@ -1,3 +1,4 @@
+// src/components/Header.jsx
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
@@ -7,12 +8,13 @@ function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // SỬA ĐỔI: Lấy dữ liệu từ AuthContext mới
+  // Lấy dữ liệu user và trạng thái đăng nhập từ AuthContext
   const { isAuthenticated, user, logout } = useAuth();
 
-  // Mapping biến để tương thích logic hiển thị bên dưới
+  // Mapping biến để tương thích logic hiển thị
   const isLoggedIn = isAuthenticated;
   const username = user?.username;
+
   // Dùng avatar từ user, nếu không có thì dùng ảnh mặc định
   const avatar =
     user?.avatar ||
@@ -53,9 +55,13 @@ function Header() {
             <Nav.Link as={Link} to="/contact">
               Contact
             </Nav.Link>
-            <Nav.Link as={Link} to="/manage">
-              Manager Orchid
-            </Nav.Link>
+
+            {/* chỉ hiển thị nút này nếu role là admin */}
+            {user?.role === "admin" && (
+              <Nav.Link as={Link} to="/manage">
+                Manager Orchid
+              </Nav.Link>
+            )}
           </Nav>
 
           {!isLoggedIn && (
