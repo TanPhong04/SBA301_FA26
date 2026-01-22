@@ -7,9 +7,8 @@ import Orchid from "./page/Orchid";
 import About from "./page/About";
 import Contact from "./page/Contact";
 import OrchidDetail from "./page/OrchidDetail";
-// import { OrchidsData } from "./data/ListOfOrchidss"; // <-- CODE CŨ: Đã comment
-
-// import TestCount from "./components/TestCount"; // <--- Code thừa: Component này không được sử dụng trong App.jsx
+// import { OrchidsData } from "./data/ListOfOrchidss"; // khong dung import cai nay nua vi
+import ManageOrchid from "./page/ManageOrchid";
 import Login from "./page/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -27,6 +26,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="detail/:id" element={<OrchidDetail />} />
+            <Route path="manage" element={<ManageOrchid />} />
           </Route>
         </Routes>
       </Router>
