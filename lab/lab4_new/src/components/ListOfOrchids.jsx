@@ -1,64 +1,42 @@
-import React from "react";
-import { Table, Container, Button, Image, Spinner } from "react-bootstrap";
-import { Link } from "react-router";
-import { useOrchids } from "../hooks/useOrchids";
+// src/components/ListOfOrchids.jsx
+import { Link } from "react-router-dom"; // <--- Import Link
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Card from "react-bootstrap/Card";
 
-export default function ListOfOrchids() {
-  const { orchids, loading, deleteOrchid } = useOrchids();
-
-  if (loading)
-    return <Spinner animation="border" className="d-block mx-auto mt-5" />;
-
+function ListOfOrchids({ orchidList }) {
   return (
-    <Container>
-      <Table striped bordered hover className="mt-5 shadow-sm">
-        <thead className="table-dark">
-          <tr>
-            <th>Hình ảnh</th>
-            <th>Tên Orchid</th>
-            <th>Nguồn gốc</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orchids.map((o) => (
-            <tr key={o.id}>
-              <td>
-                <Image
-                  src={o.image}
-                  width={50}
-                  height={50}
-                  style={{ objectFit: "cover" }}
-                  rounded
-                />
-              </td>
-              <td>{o.orchidName}</td>
-              <td>
-                {o.isNatural ? (
-                  <span className="badge bg-success">Tự nhiên</span>
-                ) : (
-                  <span className="badge bg-warning">Công nghiệp</span>
-                )}
-              </td>
-              <td>
-                <Link
-                  to={`/edit/${o.id}`}
-                  className="btn btn-sm btn-primary me-2"
-                >
-                  Sửa
-                </Link>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => deleteOrchid(o.id)}
-                >
-                  Xóa
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
+    <>
+      <Row>
+        {orchidList.length > 0
+          ? orchidList.map((orchid) => (
+              <Col md={3} key={orchid.id} className="mb-4 d-flex">
+                <Card className="h-100 w-100 position-relative shadow-sm">
+                  <Card.Img
+                    variant="top"
+                    src={orchid.image}
+                    style={{ height: "250px", objectFit: "cover" }}
+                  />
+                  <Card.Body>
+                    <Card.Title>{orchid.orchidName}</Card.Title>
+                    <span className="text-danger fw-bold">${orchid.price}</span>
+                    <div className="d-grid mt-3">
+                      {/* Sử dụng Link để chuyển sang trang detail */}
+                      <Link
+                        to={`/detail/${orchid.id}`}
+                        className="btn btn-primary"
+                      >
+                        Detail
+                      </Link>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          : null}
+      </Row>
+    </>
   );
 }
+
+export default ListOfOrchids;
