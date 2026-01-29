@@ -1,0 +1,19 @@
+GET http://localhost:8080/orchids
+###
+GET http://localhost:8080/orchids/{id}
+###
+POST http://localhost:8080/orchids
+Content-Type: application/json
+
+{
+  "orchidName": "Lan Ho Diep",
+  "orchidDescription": "Mau tim dep",
+  "orchidCategory": "Phalaenopsis",
+  "orchidURL": "link-anh",
+  "natural": true,
+  "attractive": true
+}
+###
+PUT http://localhost:8080/orchids/{id}
+###
+DELETE http://localhost:8080/orchids/{id}
