@@ -45,7 +45,8 @@ public class OrchidService implements IOrchidService {
     }
 
     @Override
-    public Optional<Orchid> getOrchidByID(int orchidID) {
-        return orchidRepository.findById(orchidID);
+    public Orchid getOrchidByID(int id) {
+        return orchidRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy hoa lan với ID: " + id));
     }
 }

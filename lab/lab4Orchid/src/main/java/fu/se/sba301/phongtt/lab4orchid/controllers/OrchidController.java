@@ -26,7 +26,7 @@
 
 
         @GetMapping("/{id}")
-        public ResponseEntity<Optional<Orchid>> getOById(@PathVariable int id) {
+        public ResponseEntity<Orchid> getOById(@PathVariable int id) {
             return ResponseEntity.ok(iOrchidService.getOrchidByID(id));
         }
 

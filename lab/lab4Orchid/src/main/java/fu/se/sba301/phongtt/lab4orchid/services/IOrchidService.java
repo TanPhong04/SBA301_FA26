@@ -10,5 +10,5 @@ public interface IOrchidService {
     Orchid insertOrchid(Orchid orchid);
     Orchid updateOrchid(int orchidID, Orchid orchid);
     void deleteOrchid(int orchidID);
-    Optional<Orchid> getOrchidByID(int orchidID);
+    Orchid getOrchidByID(int orchidID);
 }
