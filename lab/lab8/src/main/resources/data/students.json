@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "email": "alice@fpt.edu.vn",
+    "password": "123456",
+    "firstName": "Alice",
+    "lastName": "Nguyen",
+    "marks": 5,
+    "books": [
+      { "id": 101, "title": "Clean Code",               "author": "Robert C. Martin", "isbn": "978-0132350884" },
+      { "id": 102, "title": "The Pragmatic Programmer", "author": "Andrew Hunt",       "isbn": "978-0201616224" }
+    ]
+  },
+  {
+    "id": 2,
+    "email": "bob@fpt.edu.vn",
+    "password": "123456",
+    "firstName": "Bob",
+    "lastName": "Tran",
+    "marks": 2,
+    "books": [
+      { "id": 103, "title": "Head First Java", "author": "Kathy Sierra", "isbn": "978-0596009205" }
+    ]
+  },
+  {
+    "id": 3,
+    "email": "carol@fpt.edu.vn",
+    "password": "123456",
+    "firstName": "Carol",
+    "lastName": "Le",
+    "marks": 9,
+    "books": [
+      { "id": 104, "title": "Spring in Action", "author": "Craig Walls",  "isbn": "978-1617294945" },
+      { "id": 105, "title": "Design Patterns",  "author": "Gang of Four", "isbn": "978-0201633610" }
+    ]
+  },
+  {
+    "id": 4,
+    "email": "david@fpt.edu.vn",
+    "password": "123456",
+    "firstName": "David",
+    "lastName": "Pham",
+    "marks": 8,
+    "books": [
+      { "id": 106, "title": "Introduction to Algorithms", "author": "CLRS", "isbn": "978-0262033848" }
+    ]
+  },
+  {
+    "id": 5,
+    "email": "eve@fpt.edu.vn",
+    "password": "123456",
+    "firstName": "Eve",
+    "lastName": "Hoang",
+    "marks": 9,
+    "books": []
+  }
+]
